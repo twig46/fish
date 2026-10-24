@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://cjk57837ei4qx"]
+
+[ext_resource type="Texture2D" uid="uid://dtftj45nyxklc" path="res://sprites/octopus.png" id="1_o2tub"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_enbs0"]
+atlas = ExtResource("1_o2tub")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w6hxi"]
+atlas = ExtResource("1_o2tub")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fhwgg"]
+atlas = ExtResource("1_o2tub")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ionst"]
+atlas = ExtResource("1_o2tub")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8jto7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_enbs0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w6hxi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fhwgg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ionst")
+}],
+"loop": true,
+"name": &"default",
+"speed": 7.0
+}]
+
+[node name="octopus" type="CharacterBody2D" unique_id=1337237748]
+
+[node name="asprite" type="AnimatedSprite2D" parent="." unique_id=736077643]
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_8jto7")
+frame_progress = 0.8064142

@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://bqkyeebdc5qlh"]
+
+[ext_resource type="Script" uid="uid://qq3awig68r1o" path="res://scripts/child.gd" id="1_d04bu"]
+[ext_resource type="Texture2D" uid="uid://btephf0n7iopq" path="res://sprites/fish.png" id="2_d04bu"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4bbvj"]
+radius = 11.0
+height = 52.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_s1eon"]
+radius = 36.0
+height = 108.0
+
+[node name="child" type="CharacterBody2D" unique_id=1252942093]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("1_d04bu")
+
+[node name="sprite" type="Sprite2D" parent="." unique_id=2075785647]
+modulate = Color(1, 0, 1, 1)
+z_index = -1
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_d04bu")
+flip_h = true
+
+[node name="col" type="CollisionShape2D" parent="." unique_id=180398837]
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_4bbvj")
+
+[node name="psb" type="Area2D" parent="." unique_id=766245077]
+collision_layer = 0
+collision_mask = 3
+
+[node name="space" type="CollisionShape2D" parent="psb" unique_id=1727096682]
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_s1eon")
