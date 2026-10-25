@@ -21,7 +21,7 @@ func _physics_process(delta: float) -> void:
 	
 	if Engine.get_physics_frames() > 5:
 		if !$notifier.is_on_screen():
-			print("death")
+			get_parent().lose()
 		
 	var camera = $"../cam"
 	var viewport_size = get_viewport_rect().size
