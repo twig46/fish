@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cjk57837ei4qx"]
 
 [ext_resource type="Texture2D" uid="uid://dtftj45nyxklc" path="res://sprites/octopus.png" id="1_o2tub"]
+[ext_resource type="Script" uid="uid://gf5muikb266u" path="res://scripts/octopus.gd" id="1_w6hxi"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_enbs0"]
 atlas = ExtResource("1_o2tub")
@@ -38,9 +39,26 @@ animations = [{
 "speed": 7.0
 }]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_enbs0"]
+radius = 45.01111
+
 [node name="octopus" type="CharacterBody2D" unique_id=1337237748]
+z_index = 5
+scale = Vector2(0.5, 0.5)
+script = ExtResource("1_w6hxi")
 
 [node name="asprite" type="AnimatedSprite2D" parent="." unique_id=736077643]
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_8jto7")
+autoplay = "default"
 frame_progress = 0.8064142
+offset = Vector2(4, 3)
+
+[node name="psb" type="Area2D" parent="." unique_id=650713719]
+
+[node name="col" type="CollisionShape2D" parent="psb" unique_id=2110819316]
+position = Vector2(3, 0)
+shape = SubResource("CircleShape2D_enbs0")
+
+[node name="enabler" type="VisibleOnScreenEnabler2D" parent="." unique_id=2093027785]
+rect = Rect2(-56, -48, 118, 114)

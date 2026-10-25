@@ -8,8 +8,8 @@ radius = 11.0
 height = 52.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_s1eon"]
-radius = 36.0
-height = 108.0
+radius = 16.0
+height = 64.0
 
 [node name="child" type="CharacterBody2D" unique_id=1252942093]
 collision_layer = 2

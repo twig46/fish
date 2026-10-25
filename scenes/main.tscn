@@ -4,8 +4,12 @@
 [ext_resource type="Script" uid="uid://yljtwlmiottq" path="res://scripts/fish.gd" id="2_o6xl0"]
 [ext_resource type="Texture2D" uid="uid://btephf0n7iopq" path="res://sprites/fish.png" id="3_tipki"]
 [ext_resource type="Script" uid="uid://3ck6lwvwthp5" path="res://scripts/cam.gd" id="4_85g3d"]
+[ext_resource type="Script" uid="uid://nxwxm64ufxgi" path="res://addons/almios_screen_shake/screen_shake.gd" id="5_85g3d"]
 [ext_resource type="Shader" uid="uid://bbppoy84n6gf7" path="res://shaders/bg.gdshader" id="5_choun"]
 [ext_resource type="Texture2D" uid="uid://cg5b7rubffjk8" path="res://sprites/bg-placeholder.png" id="6_ya4ey"]
+[ext_resource type="Texture2D" uid="uid://dqp0watpmdmr4" path="res://sprites/warn.png" id="7_o6xl0"]
+[ext_resource type="FontFile" uid="uid://dr122006jbkkf" path="res://sprites/font.png" id="10_choun"]
+[ext_resource type="Texture2D" uid="uid://ok8sotyryqws" path="res://sprites/loss.png" id="10_ya4ey"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1bvp3"]
 radius = 11.0
@@ -16,12 +20,37 @@ shader = ExtResource("5_choun")
 shader_parameter/background_texture = ExtResource("6_ya4ey")
 shader_parameter/camera_position = Vector2(0, 0)
 shader_parameter/camera_zoom = 1.0
+shader_parameter/viewport_size = Vector2(640, 360)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tipki"]
+atlas = ExtResource("7_o6xl0")
+region = Rect2(0, 0, 160, 90)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_85g3d"]
+atlas = ExtResource("7_o6xl0")
+region = Rect2(0, 90, 160, 90)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_choun"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tipki")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_85g3d")
+}],
+"loop": true,
+"name": &"default",
+"speed": 9.0
+}]
 
 [node name="main" type="Node2D" unique_id=430282819]
+process_mode = 3
 script = ExtResource("1_tefeu")
 
 [node name="fish" type="CharacterBody2D" parent="." unique_id=204679918]
-position = Vector2(467, 315)
+process_mode = 1
+position = Vector2(-79, -93)
 collision_mask = 0
 script = ExtResource("2_o6xl0")
 
@@ -35,8 +64,15 @@ flip_h = true
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_1bvp3")
 
+[node name="notifier" type="VisibleOnScreenNotifier2D" parent="fish" unique_id=60844565]
+
 [node name="cam" type="Camera2D" parent="." unique_id=1585328408]
+process_mode = 3
 script = ExtResource("4_85g3d")
+
+[node name="shake" type="Node" parent="cam" unique_id=1803573005]
+script = ExtResource("5_85g3d")
+metadata/_custom_type_script = "uid://nxwxm64ufxgi"
 
 [node name="canvas" type="CanvasLayer" parent="." unique_id=1793118749]
 layer = -100
@@ -48,3 +84,57 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="box" type="AnimatedSprite2D" parent="." unique_id=77622858]
+visible = false
+z_index = 3
+scale = Vector2(4, 4)
+sprite_frames = SubResource("SpriteFrames_choun")
+autoplay = "default"
+frame_progress = 0.14841235
+centered = false
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=207766739]
+process_mode = 3
+layer = 40
+
+[node name="losscolour" type="ColorRect" parent="UI" unique_id=1201393589]
+visible = false
+z_index = 1000
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="score" type="Label" parent="UI" unique_id=541858601]
+offset_left = 20.0
+offset_top = 17.0
+offset_right = 210.0
+offset_bottom = 41.0
+theme_override_fonts/font = ExtResource("10_choun")
+theme_override_font_sizes/font_size = 24
+text = "0"
+metadata/_edit_use_anchors_ = true
+
+[node name="timer" type="Label" parent="UI" unique_id=1284800594]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -209.0
+offset_top = 18.0
+offset_right = -19.0
+offset_bottom = 42.0
+grow_horizontal = 0
+theme_override_fonts/font = ExtResource("10_choun")
+theme_override_font_sizes/font_size = 24
+text = "5"
+horizontal_alignment = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="loss" type="TextureRect" parent="UI" unique_id=1174916599]
+visible = false
+z_index = 1000
+offset_right = 640.0
+offset_bottom = 361.0
+texture = ExtResource("10_ya4ey")

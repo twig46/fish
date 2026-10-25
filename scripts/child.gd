@@ -2,8 +2,8 @@ extends CharacterBody2D
 
 @export var parent: CharacterBody2D
 
-const SPEED = 500.0
-const PUSH_STRENGTH = 200.0
+const SPEED = 1000.0
+const PUSH_STRENGTH = 1000.0
 
 @onready var psb = $psb
 @onready var sprite: Sprite2D = $sprite
@@ -28,7 +28,7 @@ const PALETTE: Array[Color] = [
 	#Color("#db9591"),
 	Color("#dbaf91"),
 	Color("#dbd991"),
-	Color("#fbfbfb")
+	#Color("#fbfbfb")
 ]
 
 func _ready() -> void:
@@ -36,18 +36,34 @@ func _ready() -> void:
 	sprite.modulate = PALETTE.pick_random()
 
 func _physics_process(delta: float) -> void:
-	var push_vector = Vector2.ZERO
-	var overlapping_bodies = psb.get_overlapping_bodies()
-	for body in overlapping_bodies:
-		if body == self or body is not CharacterBody2D:
-			continue
-		var diff: Vector2 = global_position-body.global_position
-		var distance := diff.length()
-		if distance > 0:
-			push_vector+=diff.normalized()*(PUSH_STRENGTH/distance)
-	velocity = push_vector*delta
-	move_and_slide()
-	velocity = (parent.global_position-global_position)*SPEED*delta
-	rotation = velocity.angle()
-	move_and_slide()
+	if parent:
+		var to_parent = parent.global_position-global_position
+		var parent_distance = to_parent.length()
+		var push_vector = Vector2.ZERO
+		var overlapping_bodies = psb.get_overlapping_bodies()
+		var proximity_dampener := clampf(parent_distance / 20.0, 0.1, 1.0)
+		for body in overlapping_bodies:
+			if body == self or body is not CharacterBody2D:
+				continue
+			var diff: Vector2 = global_position-body.global_position
+			var distance := diff.length()
+			if distance > 0:
+				push_vector+=diff.normalized() * ((PUSH_STRENGTH * proximity_dampener) / max(distance, 10.0))
+		var parent_vector = Vector2.ZERO
+		if parent_distance > 5.0:
+			var target_speed = min(SPEED, parent_distance*10)
+			parent_vector = to_parent.normalized()*target_speed
+		var target_velocity = (parent_vector + push_vector)
+		velocity = velocity.lerp(target_velocity, 15.0 * delta)
+		if velocity.length() > 1.0:
+			rotation = parent_vector.angle()
+		move_and_slide()
+	else:
+		rotate(-0.01)
+		var colliders = $psb.get_overlapping_bodies()
+		for collider in colliders:
+			if collider.has_method("take_damage"):
+				parent = collider
+				collider.children.push_back(self)
 	#velocity = Vector2.ZERO
+	

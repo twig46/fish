@@ -13,14 +13,17 @@ config_version=5
 config/name="fish"
 run/main_scene="uid://glhl6xhpy37x"
 config/features=PackedStringArray("4.6", "Forward Plus")
-config/icon="res://sprites/icon.svg"
+boot_splash/bg_color=Color(0, 0, 0, 1)
+boot_splash/use_filter=false
+boot_splash/image="uid://0oi4tdmmqyhm"
+config/icon="res://sprites/icon.png"
 
 [display]
 
 window/size/viewport_width=640
 window/size/viewport_height=360
 window/size/mode=3
-window/stretch/mode="canvas_items"
+window/stretch/mode="viewport"
 window/stretch/aspect="expand"
 
 [editor]
